@@ -1,0 +1,5 @@
+[core]
+    remote = local-remote
+    autostage = true
+['remote "local-remote"']
+    url = /home/f0x-tr0t/Documents/dvc-store
