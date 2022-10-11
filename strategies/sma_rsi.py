@@ -44,24 +44,26 @@ class SMA_RSI(bt.Strategy):
         # Attention: broker could reject order if not enough cash
         if order.status in [order.Completed]:
             if order.isbuy():
-                self.log(
-                    'BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
-                    (order.executed.price,
-                     order.executed.value,
-                     order.executed.comm))
+                # self.log(
+                #     'BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
+                #     (order.executed.price,
+                #      order.executed.value,
+                #      order.executed.comm))
 
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.comm
             else:  # Sell
-                self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
-                         (order.executed.price,
-                          order.executed.value,
-                          order.executed.comm))
+                # self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
+                #          (order.executed.price,
+                #           order.executed.value,
+                #           order.executed.comm))
+                pass
 
             self.bar_executed = len(self)
 
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
-            self.log('Order Canceled/Margin/Rejected')
+            # self.log('Order Canceled/Margin/Rejected')
+            pass
 
         # Write down: no pending order
         self.order = None
@@ -70,8 +72,9 @@ class SMA_RSI(bt.Strategy):
         if not trade.isclosed:
             return
 
-        self.log('OPERATION PROFIT, GROSS %.2f, NET %.2f' %
-                 (trade.pnl, trade.pnlcomm))
+        # self.log('OPERATION PROFIT, GROSS %.2f, NET %.2f' %
+        #          (trade.pnl, trade.pnlcomm))
+        pass
 
     def next(self):
         # Simply log the closing price of the series from the reference

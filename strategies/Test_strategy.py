@@ -23,5 +23,5 @@ class TestStrategy(bt.Strategy):
                 # previous close less than the previous close
 
                 # BUY, BUY, BUY!!! (with all possible default parameters)
-                self.log('BUY CREATE, %.2f' % self.dataclose[0])
+                # self.log('BUY CREATE, %.2f' % self.dataclose[0])
                 self.buy()
