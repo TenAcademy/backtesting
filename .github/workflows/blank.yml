@@ -37,4 +37,4 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install requirements.txt
+          pip install --ignore-installed -r requirements.txt
