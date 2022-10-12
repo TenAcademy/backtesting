@@ -20,6 +20,7 @@
 - [Screenshots](#screenshots)
 - [Notebooks](#notebooks)
 - [Scripts](#scripts)
+- [Strategies](#strategies)
 - [Test](#test)
 - [Authors](#authors)
 
@@ -37,20 +38,20 @@
 
 ## Objective
 
-> This objective of this project is very straightforward: design and build a reliable, large-scale trading data pipeline, for both crypto and stock market tradinng.
+> This objective of this project is very straightforward: design and build a reliable, large-scale trading data pipeline, for both crypto and stock market trading.
 >
-> Users will be prompted with several different stock and crypto trading options and parameters. After processing these parameters users will then be provided with several backtesting outputs using different startegies on the specific stock or crypto trading.
+> Users will be prompted with several different stock and crypto trading options and parameters. After processing these parameters users will then be provided with several back testing outputs using different strategies on the specific stock or crypto trading.
 
 ## Data
 
-> The data used for generating these backtesing results comes from sevral historical data of stocks and crypto currency trades.
+> The data used for generating these back testing results comes from several historical data of stocks and crypto currency trades.
 > These datasets are publicly available and can be found at [yahoo finance](https://help.yahoo.com/kb/SLN2311.html) and [binance](https://www.binance.com/en/landing/data).
 > You can read a brief description of what a K-line or candlestick data is [here](https://www.investopedia.com/terms/c/candlestick.asp).
 
-> Basic fetures of the data sets:
+> Basic features of the data sets:
 >
 > - Date: The day the specific trade was recorded
-> - Open: The opening price of the trade at the begining of the specific day
+> - Open: The opening price of the trade at the beginning of the specific day
 > - High: The highest price of the trade for the specific day
 > - Low: The lowest price of the trade for the specific day
 > - Close: The closing price of the trade at the end of the specific day
@@ -122,7 +123,7 @@ uvicorn app:app --reload
 
 ![](screenshots/homepage.jpg)
 
-- Users will then fill in the parametrs that are listed to get the backtesting results they want.
+- Users will then fill in the parameters that are listed to get the back testing results they want.
 
 ## Frontend
 
@@ -142,7 +143,11 @@ uvicorn app:app --reload
 
 ## Scripts
 
-> All the scripts and modules used for this project relating to interactions with kafka, airflow, several backtesting startegies and alogorithms and other frameworks along with default parameters and values used will be found here, in the scripts folder.
+> All the scripts and modules used for this project relating to interactions with kafka, airflow, and other frameworks along with default parameters and values used will be found here, in the scripts folder.
+
+## Strategies
+
+> All the back testing strategies and algorithms are found here in the strategies folder.
 
 ## Tests
 
