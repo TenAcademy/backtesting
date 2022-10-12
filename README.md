@@ -2,9 +2,7 @@
 
 ## Cryptocurrency trading engineering: A scalable back testing infrastructure and a reliable, large-scale trading data pipeline
 
-![](screenshots/overall-workflow-design.jpg)
-![](screenshots/solid.png)
-![](screenshots/grid.png)
+![](screenshots/solid-workflow-design.jpg)
 
 ## Project details
 
@@ -38,7 +36,8 @@
 > Mela is your client this week. A startup called Mela wants to make it simple for everyone to enter the world of cryptocurrencies and stock market trading in general. It also wants to give investors a reliable source of investment while lowering the risk associated with trading cryptocurrencies.
 
 ## Objective
-> This objective of this project is very straightforward: design and build a reliable, large-scale trading data pipeline, for both crypto and stock market tradinng. 
+
+> This objective of this project is very straightforward: design and build a reliable, large-scale trading data pipeline, for both crypto and stock market tradinng.
 >
 > Users will be prompted with several different stock and crypto trading options and parameters. After processing these parameters users will then be provided with several backtesting outputs using different startegies on the specific stock or crypto trading.
 
@@ -46,9 +45,10 @@
 
 > The data used for generating these backtesing results comes from sevral historical data of stocks and crypto currency trades.
 > These datasets are publicly available and can be found at [yahoo finance](https://help.yahoo.com/kb/SLN2311.html) and [binance](https://www.binance.com/en/landing/data).
->You can read a brief description of what a K-line or candlestick data is [here](https://www.investopedia.com/terms/c/candlestick.asp).
+> You can read a brief description of what a K-line or candlestick data is [here](https://www.investopedia.com/terms/c/candlestick.asp).
 
 > Basic fetures of the data sets:
+>
 > - Date: The day the specific trade was recorded
 > - Open: The opening price of the trade at the begining of the specific day
 > - High: The highest price of the trade for the specific day
