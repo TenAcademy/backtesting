@@ -1,4 +1,5 @@
 from __future__ import (absolute_import, division, print_function,unicode_literals)
+from unittest import result
 
 import yfinance as yf
 import pandas as pd
@@ -7,6 +8,7 @@ from datetime import datetime
 import os
 import sys
 import json
+
 from backtrader.analyzers import Returns,DrawDown,SharpeRatio,TradeAnalyzer
 
 class backtester:
@@ -79,5 +81,30 @@ class backtester:
 
         result['start_portfolio']=starting
         result['final_portfolio']=final
+
+        return result
+
+    def automated_test(self):
+        sys.path.append(f"{os.getcwd()}/strategies")
+        from  Test_strategy import TestStrategy
+        from sma import SMA
+        from sma_rsi import SMA_RSI
+        
+        strategies ={
+            "test":TestStrategy,
+            "sma" : SMA,
+            "sma_rsi":SMA_RSI
+        } 
+        
+        f = open("../appsetting.json")
+        args = json.load(f)
+        stratagy_name = args["indicator"]
+        strategy = strategies[stratagy_name]
+        asset= args["asset"]
+        start_date = args["dateRange"]["startDate"]
+        end_date = args["dateRange"]["endDate"]
+        f.close()
+        cerebro = self.prepare_cerebro(asset,strategy,start_date,end_date=end_date) 
+        result = self.run_test(cerebro)
 
         return result
