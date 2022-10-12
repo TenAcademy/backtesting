@@ -1,0 +1,2 @@
+Backtesting==0.3.3
+backtrader==1.9.76.123
