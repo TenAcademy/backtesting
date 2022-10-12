@@ -4,7 +4,6 @@
 
 ![](screenshots/overall-workflow-design.jpg)
 ![](screenshots/solid.png)
-![](screenshots/transparent.png)
 ![](screenshots/grid.png)
 
 ## Project details
