@@ -1,0 +1,10 @@
+CREATE TABLE candlestick (
+ “id” INTEGER PRIMARY KEY AUTOINCREMENT,
+ “timezone” TEXT NOT NULL,
+ “timestamp” DATETIME NOT NULL,
+ “open” DECIMAL(12, 6) NOT NULL,
+ “high” DECIMAL(12, 6) NOT NULL,
+ “low” DECIMAL(12, 6) NOT NULL,
+ “close” DECIMAL(12, 6) NOT NULL,
+ “volume” DECIMAL(12, 6) NOT NULL
+);
