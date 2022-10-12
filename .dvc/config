@@ -5,5 +5,6 @@
 ['remote "local-remote"']
     url = /home/f0x-tr0t/Documents/dvc-store
 ['remote "dvc-remote"']
-    url = /tmp/dvc-storage
- 
+    url = /tmp/dvc-storage 
+['remote "eo-remote"']          # emtinan local remote path
+    url = /home/emtinan_salaheldin/dvc-data
