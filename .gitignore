@@ -132,3 +132,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# virtual env realtated ignores
+backtesting_venv
