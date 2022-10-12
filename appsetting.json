@@ -4,5 +4,6 @@
         "endDate":""
     },
     "indicator":"",
-    "indicatorParams":{}
+    "indicatorParams":{},
+    "asset":""
 }
