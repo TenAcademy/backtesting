@@ -2,3 +2,5 @@
     remote = dvc-remote
 ['remote "dvc-remote"']
     url = /tmp/dvc-storage
+['remote "eo-remote"']
+    url = /home/emtinan_salaheldin/dvc-data
