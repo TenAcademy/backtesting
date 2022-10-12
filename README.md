@@ -2,7 +2,7 @@
 
 ## Cryptocurrency and stock trading engineering: A scalable back testing infrastructure and a reliable, large-scale trading data pipeline
 
-![](screenshots/solid-workflow-diagram.png)
+![](screen_shots/solid-workflow-diagram.png)
 
 ## Project details
 
