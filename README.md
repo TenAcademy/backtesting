@@ -2,7 +2,7 @@
 
 ## Cryptocurrency trading engineering: A scalable back testing infrastructure and a reliable, large-scale trading data pipeline
 
-![](screenshots/image.png)
+![](screenshots/overall-worlflow-design.jpg)
 
 ## Project details
 
