@@ -8,6 +8,7 @@ from datetime import datetime
 import os
 import sys
 import json
+import mlflow
 
 from backtrader.analyzers import Returns,DrawDown,SharpeRatio,TradeAnalyzer
 
@@ -18,10 +19,26 @@ class backtester:
             end_date= datetime.strftime(datetime.now(),"%Y-%m-%d")
         if data_path == None:
             data_path=f"../data/{asset}.csv"
+        
+        mlflow.set_tracking_uri('http://localhost:5000')
+        mlflow.set_experiment(strategy.__name__)
+        mlflow.start_run()
+        mlflow.log_param('asset',asset)
+        mlflow.log_param('strategy',strategy.__name__)
+        mlflow.log_param('startDate',start_date)
+        mlflow.log_param('endDate',end_date)
+        mlflow.log_param('commssion',commission)
+        mlflow.log_param('initialCash',cash)
+
         cerebro = bt.Cerebro()
         cerebro.broker.setcash(cash)
         cerebro.broker.setcommission(commission=commission)
         cerebro.addstrategy(strategy)
+
+        cerebro.addanalyzer(SharpeRatio, _name='sharpe')
+        cerebro.addanalyzer(Returns, _name='returns')
+        cerebro.addanalyzer(DrawDown, _name='draw')
+        cerebro.addanalyzer(TradeAnalyzer, _name='trade')
         
         isExist = os.path.exists(data_path)
         if not isExist:
@@ -36,19 +53,12 @@ class backtester:
         )
 
         cerebro.adddata(data)
-        # cerebro.addanalyzer(AnnualReturn)
-        cerebro.addanalyzer(TradeAnalyzer)
         return cerebro
 
     def run_test(self,cerebro:bt.Cerebro):
 
         result={}
 
-        cerebro.addanalyzer(SharpeRatio, _name='sharpe')
-        cerebro.addanalyzer(Returns, _name='returns')
-        cerebro.addanalyzer(DrawDown, _name='draw')
-        cerebro.addanalyzer(TradeAnalyzer, _name='trade')
-        
         starting = cerebro.broker.getvalue()
         res=cerebro.run()
         final=cerebro.broker.getvalue()
@@ -82,6 +92,19 @@ class backtester:
         result['start_portfolio']=starting
         result['final_portfolio']=final
 
+        mlflow.log_metric('sharpe_ratio',result['sharpe_ratio'])
+        mlflow.log_metric('return',result['return'])
+        mlflow.log_metric('max_drawdown',result['max_drawdown'])
+        try:
+            mlflow.log_metric('win_trade',result['win_trade'])
+            mlflow.log_metric('loss_trade',result['loss_trade'])
+        except:
+            pass
+        mlflow.log_metric('total_trade',result['total_trade'])
+        mlflow.log_metric('start_portfolio',result['start_portfolio'])
+        mlflow.log_metric('final_portfolio',result['final_portfolio'])
+        mlflow.end_run()
+
         return result
 
     def automated_test(self):
@@ -108,3 +131,4 @@ class backtester:
         result = self.run_test(cerebro)
 
         return result
+    
