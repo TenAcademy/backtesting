@@ -12,7 +12,7 @@ from backtrader.analyzers import Returns,DrawDown,SharpeRatio,TradeAnalyzer
 class backtester:
 
     def prepare_cerebro(self,asset,strategy,start_date:str,data_path:str=None,end_date:str=None,cash:int=100,commission:float=0)->bt.Cerebro:
-        if end_date ==None:
+        if end_date == None:
             end_date= datetime.strftime(datetime.now(),"%Y-%m-%d")
         if data_path == None:
             data_path=f"../data/{asset}.csv"
@@ -38,7 +38,7 @@ class backtester:
         cerebro.addanalyzer(TradeAnalyzer)
         return cerebro
 
-    def run_test(cerebro:bt.Cerebro):
+    def run_test(self,cerebro:bt.Cerebro):
 
         result={}
 
