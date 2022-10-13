@@ -118,5 +118,5 @@ CREATE TABLE g1.backtests_results(
 
 with engine.connect() as conn:
     # query = text("Show table")
-    a = conn.execute(create_query)
+    a = conn.execute(select_users_query)
     print(a.fetchall())
