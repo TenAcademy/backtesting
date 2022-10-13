@@ -2,7 +2,7 @@
 
 ## Cryptocurrency and stock trading engineering: A scalable back testing infrastructure and a reliable, large-scale trading data pipeline
 
-### Initial system architecture design
+#### Initial system architecture design
 
 ![](screen_shots/solid-workflow-diagram.png)
 
