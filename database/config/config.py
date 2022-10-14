@@ -1,0 +1,1 @@
+#psql --host melachallengedatabase.crlafpfc5g5y.us-east-1.rds.amazonaws.com --port 5432 --username groupNameuser --password --dbname groupNamedbs
