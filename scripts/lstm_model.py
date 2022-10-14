@@ -56,6 +56,7 @@ def add_technical_indicators(new_df):
             new_df['BB_UPPER'][i] = new_df.loc[i, 'BB_MIDDLE']
             new_df['BB_LOWER'][i] = new_df.loc[i, 'BB_MIDDLE']
     return new_df
+
  #Preparation of train test set.
 def train_test_split_preparation(new_df, train_split):
     train_indices = int(new_df.shape[0] * train_split)
@@ -72,12 +73,14 @@ def train_test_split_preparation(new_df, train_split):
     y_normaliser = preprocessing.MinMaxScaler()
     next_day_close_values = np.array([train_data['Adj Close'][i + history_points].copy() for i in range(len(train_data) - history_points)])
     next_day_close_values = np.expand_dims(next_day_close_values, -1)
+
 #normalize
     y_normaliser.fit(next_day_close_values)
     X_test = np.array([test_normalised_data[:,0:][i  : i + history_points].copy() for i in range(len(test_normalised_data) - history_points)])
     y_test = np.array([test_data['Adj Close'][i + history_points].copy() for i in range(len(test_data) - history_points)])    
     y_test = np.expand_dims(y_test, -1)
     return X_train, y_train, X_test, y_test, y_normaliser
+
 #lstm model train
 def lstm_model(X_train, y_train, history_points):
     tf.random.set_seed(20)
@@ -91,6 +94,7 @@ def lstm_model(X_train, y_train, history_points):
     model.compile(optimizer=adam, loss='mse')
     model.fit(x=X_train, y=y_train, batch_size=25, epochs=50, shuffle=True, validation_split = 0.1)
     return model
+
 #main function
 if __name__ == "__main__":
     start_date = datetime(2017, 10, 10)
@@ -106,6 +110,7 @@ if __name__ == "__main__":
     model = lstm_model(X_train, y_train, history_points)
     y_pred = model.predict(X_test)
     y_pred = y_reverse_normaliser.inverse_transform(y_pred)
+
 #plots Actual value
     real = plt.plot(y_test, label='Trade Actual Price')
     pred = plt.plot(y_pred, label='Trade Predicted Price')
@@ -116,3 +121,4 @@ if __name__ == "__main__":
     plt.legend(['Trade actual Price', 'Trade predicted Price'])
     print(mean_squared_error(y_test, y_pred))
     plt.show()  
+  #show  
