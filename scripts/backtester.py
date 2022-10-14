@@ -18,7 +18,7 @@ class backtester:
         if end_date == None:
             end_date= datetime.strftime(datetime.now(),"%Y-%m-%d")
         if data_path == None:
-            data_path=f"../data/{asset}.csv"
+            data_path=f"./data/{asset}.csv"
         
         mlflow.end_run()
         mlflow.set_tracking_uri('http://localhost:5000')
@@ -124,8 +124,11 @@ class backtester:
             "sma_rsi":SMA_RSI
         } 
         
-        f = open("../appsetting.json")
+        f = open("./appsetting.json")
+        
         args = json.load(f)
+        print(os.getcwd())
+        args = {}
         if strategy_name == None:
             strategy_name = args["indicator"]
         strategy = strategies[strategy_name]
