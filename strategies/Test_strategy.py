@@ -13,14 +13,14 @@ class TestStrategy(bt.Strategy):
         # Keep a reference to the "close" line in the data[0] dataseries
         self.dataclose = self.datas[0].close
 
-        f = open("../appsetting.json")
-        custom_params=json.load(f)
-        indicator_params= custom_params["indicatorParams"]
-        for key in indicator_params.keys():
-            if indicator_params.get(key) != "":
-                setattr(self.params, key, indicator_params.get(key))
+        # f = open("../appsetting.json")
+        # custom_params=json.load(f)
+        # indicator_params= custom_params["indicatorParams"]
+        # for key in indicator_params.keys():
+        #     if indicator_params.get(key) != "":
+        #         setattr(self.params, key, indicator_params.get(key))
             
-        f.close()
+        # f.close()
 
     def next(self):
         # Simply log the closing price of the series from the reference
