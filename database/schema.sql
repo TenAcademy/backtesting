@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS "backtest_metrics" (
 
 CREATE TABLE IF NOT EXISTS "scene" (
   "id" SERIAL PRIMARY KEY NOT NULL,
-  "from_date" datetime,
-  "to_date" datetime,
+  "from_date" timestamp,
+  "to_date" timestamp,
   "indicator_id" int
 );
 
