@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask import request
 from producer import produce
 import json
@@ -15,6 +16,7 @@ from backtester import backtester
 
 tester=backtester()
 app = Flask(__name__)
+CORS(app) 
 
 @app.route("/check")
 def check():
@@ -44,12 +46,15 @@ def backtest():
     start_date = content["start_date"]
     end_date=content["end_date"]
     cash = content["cash"]
+    try:
+        produce("g1-SCENES_TOPIC",json.dumps(content))
+        result=tester.automated_test(asset,strategy,start_date,end_date,cash)
+        produce("g1-RESULTS_TOPIC",json.dumps(result))
+        return result
+    except Exception as e:
+        return str(e)
+    
 
-    produce("g1-SCENES_TOPIC",json.dumps(content))
-    result=tester.automated_test(asset,strategy,start_date,end_date,cash)
-    produce("g1-RESULTS_TOPIC",json.dumps(result))
-
-    return result
 
 
 
