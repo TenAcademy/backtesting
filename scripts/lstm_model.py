@@ -91,12 +91,12 @@ def lstm_model(X_train, y_train, history_points):
     model.compile(optimizer=adam, loss='mse')
     model.fit(x=X_train, y=y_train, batch_size=25, epochs=50, shuffle=True, validation_split = 0.1)
     return model
-
+#main function
 if __name__ == "__main__":
     start_date = datetime(2017, 10, 10)
     end_date = datetime(2022, 10, 10)
 
-    #pulling of google data from csv file
+    #pulling of BTC data from yahoofincance file
     df = pd.read_csv('../data/BTC-USD.csv')   
     train_split = 0.7
     history_points = 21
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     model = lstm_model(X_train, y_train, history_points)
     y_pred = model.predict(X_test)
     y_pred = y_reverse_normaliser.inverse_transform(y_pred)
-
+#plots Actual value
     real = plt.plot(y_test, label='Trade Actual Price')
     pred = plt.plot(y_pred, label='Trade Predicted Price')
     plt.gcf().set_size_inches(12, 8, forward=True)
