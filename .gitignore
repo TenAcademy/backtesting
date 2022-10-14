@@ -38,6 +38,7 @@ MANIFEST
 data/*.csv
 *.csv
 notebooks/*.csv
+mlruns/
 
 # Installer logs
 pip-log.txt
