@@ -1,3 +1,4 @@
+#library
 import matplotlib.pyplot as plt
 from pandas_datareader import data as web
 from datetime import datetime
@@ -12,7 +13,7 @@ from keras import optimizers
 from keras.callbacks import History 
 from sklearn.metrics import mean_squared_error
 import pandas as pd
-
+#create balance volume
 def on_balance_volume_creation(df):
     new_df = pd.DataFrame({})
     new_df = df[['Adj Close']].copy()
@@ -31,7 +32,7 @@ def on_balance_volume_creation(df):
     new_df['On_Balance_Volume'] = new_df['On_Balance_Volume'] - minimum
     new_df['On_Balance_Volume'] = (new_df['On_Balance_Volume']+1).transform(np.log)
     return new_df
-
+#indicators
 def add_technical_indicators(new_df):
     data = pd.DataFrame()
     data['open'] = df['Open']
