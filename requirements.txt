@@ -8,3 +8,5 @@ pip-chill==1.0.1
 seaborn==0.12.0
 yarg==0.1.9
 yfinance==0.1.77
+sqlalchemy==1.4.41
+psycopg2==2.9.4
