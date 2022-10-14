@@ -1,6 +1,7 @@
 from kafka import KafkaProducer
 
-def produce(topic:str,message:str,bootstrap_servers:list=['b-1.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092','b-2.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092']):
+def produce(topic:str,message:str,bootstrap_servers=['b-1.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092',
+'b-2.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092']):
     """
     Produce: 
         Method
@@ -18,4 +19,3 @@ def produce(topic:str,message:str,bootstrap_servers:list=['b-1.batch6w7.6qsgnf.c
     producer.flush()
 
     print("Produced!")
-    
