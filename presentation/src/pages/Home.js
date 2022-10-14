@@ -27,11 +27,16 @@ const Home = () => {
         setresult({...response.data})
 
     }
+    const logout = (e)=>{
+        e.preventDefault()
+        window.localStorage.clear()
+        window.location("/")
+    }
 
   return (
     <div>
 
-        <button className='btn btn-secondary' style={{"position":"absolute","top":"10px","right":"10px"}}>Log out</button>
+        <button className='btn btn-secondary' onClick={logout} style={{"position":"absolute","top":"10px","right":"10px"}}>Log out</button>
 
         <div className="d-flex w-100">
         <form action="" onSubmit={test}>

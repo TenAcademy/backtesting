@@ -53,6 +53,8 @@ const Login = () => {
     
         if(success){
             // window.alert("Success")
+            window.localStorage.clear()
+            window.localStorage("user",email)
             window.location="/"
         }
         else{
