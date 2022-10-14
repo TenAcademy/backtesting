@@ -20,6 +20,7 @@ class backtester:
         if data_path == None:
             data_path=f"../data/{asset}.csv"
         
+        mlflow.end_run()
         mlflow.set_tracking_uri('http://localhost:5000')
         mlflow.set_experiment(strategy.__name__)
         mlflow.start_run()
@@ -91,8 +92,10 @@ class backtester:
 
         result['start_portfolio']=starting
         result['final_portfolio']=final
-
-        mlflow.log_metric('sharpe_ratio',result['sharpe_ratio'])
+        try:
+            mlflow.log_metric('sharpe_ratio',result['sharpe_ratio'])
+        except:
+            mlflow.log_param('sharpe_ratio',"undefined")
         mlflow.log_metric('return',result['return'])
         mlflow.log_metric('max_drawdown',result['max_drawdown'])
         try:
@@ -107,8 +110,10 @@ class backtester:
 
         return result
 
-    def automated_test(self):
+    def automated_test(self,asset=None,strategy_name=None,start_date=None,end_date=None,cash=100):
         sys.path.append(f"{os.getcwd()}/strategies")
+        sys.path.append(f"../strategies/")
+
         from  Test_strategy import TestStrategy
         from sma import SMA
         from sma_rsi import SMA_RSI
@@ -121,14 +126,25 @@ class backtester:
         
         f = open("../appsetting.json")
         args = json.load(f)
-        stratagy_name = args["indicator"]
-        strategy = strategies[stratagy_name]
-        asset= args["asset"]
-        start_date = args["dateRange"]["startDate"]
-        end_date = args["dateRange"]["endDate"]
+        if strategy_name == None:
+            strategy_name = args["indicator"]
+        strategy = strategies[strategy_name]
+        
+        if asset == None:    
+            asset= args["asset"]
+        
+        if start_date==None:
+            start_date = args["dateRange"]["startDate"]
+
+        if end_date==None:
+            end_date = args["dateRange"]["endDate"]
+
+
         f.close()
-        cerebro = self.prepare_cerebro(asset,strategy,start_date,end_date=end_date) 
+        cerebro = self.prepare_cerebro(asset=asset,strategy=strategy,start_date=start_date,end_date=end_date,cash=cash) 
         result = self.run_test(cerebro)
 
         return result
+
+
     
