@@ -55,10 +55,8 @@ def add_technical_indicators(new_df):
             new_df['BB_UPPER'][i] = new_df.loc[i, 'BB_MIDDLE']
             new_df['BB_LOWER'][i] = new_df.loc[i, 'BB_MIDDLE']
     return new_df
-
-
+ #Preparation of train test set.
 def train_test_split_preparation(new_df, train_split):
-    #Preparation of train test set.
     train_indices = int(new_df.shape[0] * train_split)
     train_data = new_df[:train_indices]
     test_data = new_df[train_indices:]
@@ -73,13 +71,13 @@ def train_test_split_preparation(new_df, train_split):
     y_normaliser = preprocessing.MinMaxScaler()
     next_day_close_values = np.array([train_data['Adj Close'][i + history_points].copy() for i in range(len(train_data) - history_points)])
     next_day_close_values = np.expand_dims(next_day_close_values, -1)
-
+#normalize
     y_normaliser.fit(next_day_close_values)
     X_test = np.array([test_normalised_data[:,0:][i  : i + history_points].copy() for i in range(len(test_normalised_data) - history_points)])
     y_test = np.array([test_data['Adj Close'][i + history_points].copy() for i in range(len(test_data) - history_points)])    
     y_test = np.expand_dims(y_test, -1)
     return X_train, y_train, X_test, y_test, y_normaliser
-
+#lstm model train
 def lstm_model(X_train, y_train, history_points):
     tf.random.set_seed(20)
     np.random.seed(10)
