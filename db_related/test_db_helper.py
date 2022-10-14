@@ -10,8 +10,10 @@ port="5432"
 user="changuser"
 passw = "changpass"
 
+
 # engine = create_engine(f'postgresql://{user}@{host}/{db}')
 engine = create_engine(f'postgresql+psycopg2://{user}:{passw}@{host}:{port}/{db}')
+
 
 create_schema = """
     CREATE SCHEMA g1;
