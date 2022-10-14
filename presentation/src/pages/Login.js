@@ -54,7 +54,7 @@ const Login = () => {
         if(success){
             // window.alert("Success")
             window.localStorage.clear()
-            window.localStorage("user",email)
+            window.localStorage.setItem("user",email)
             window.location="/"
         }
         else{
@@ -81,10 +81,12 @@ const Login = () => {
 
         let data = response.data
         if(data.Success){
-
+            window.localStorage.clear()
+            window.localStorage.setItem("user",email)
             window.location="/"
         }
         else{
+            console.log(data.Msg);
             window.alert("Error handling your request")
         }
     
