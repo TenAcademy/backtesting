@@ -36,6 +36,7 @@ MANIFEST
 *.spec
 
 data/*.csv
+*.csv
 notebooks/*.csv
 
 # Installer logs
