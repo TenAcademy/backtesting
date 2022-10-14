@@ -6,8 +6,8 @@ import os
 import sys
 
 cwd=os.getcwd()
-sys.path.append(f"{cwd}/Utils/")
-sys.path.append(f"{cwd}/../scripts/")
+sys.path.append(f"{cwd}/api/Utils/")
+sys.path.append(f"{cwd}/scripts/")
 
 from session import log_in
 from user_handler import *
