@@ -20,14 +20,14 @@ class SMA(bt.Strategy):
         self.buyprice = None
         self.buycomm = None
 
-        f = open("../appsetting.json")
-        custom_params=json.load(f)
-        indicator_params= custom_params["indicatorParams"]
-        for key in indicator_params.keys():
-            if indicator_params.get(key) != "":
-                setattr(self.params, key, indicator_params.get(key))
+        # f = open("../appsetting.json")
+        # custom_params=json.load(f)
+        # indicator_params= custom_params["indicatorParams"]
+        # for key in indicator_params.keys():
+        #     if indicator_params.get(key) != "":
+        #         setattr(self.params, key, indicator_params.get(key))
             
-        f.close()
+        # f.close()
 
         # Add a MovingAverageSimple indicator
         self.sma = bt.indicators.SimpleMovingAverage(
