@@ -30,6 +30,9 @@ const Home = () => {
 
   return (
     <div>
+
+        <button className='btn btn-secondary' style={{"position":"absolute","top":"10px","right":"10px"}}>Log out</button>
+
         <div className="d-flex w-100">
         <form action="" onSubmit={test}>
             <div className='my-2'>
@@ -65,15 +68,54 @@ const Home = () => {
             </div>
         </form>
         <div className="px-2 ml-1" style={{"border":"1px solid black","borderRadius":"5px","width":"400px"}}>
-        <br /><br />
-            Sharpe Ratio: {result.sharpe_ratio}
-            <br /> Return: {result.return}
-            <br /> Max drawdown: {result.max_drawdown}
-            <br /> Win Trade: {result.win_trade}
-            <br /> Loss Trade: {result.loss_trade}
-            <br /> Total Trade: {result.total_trade}
-            <br /> Start Portfolio: {result.start_portfolio}
-            <br /> Final Portfolio: {result.final_portfolio}
+        
+            <table className='table table-bg table-stripe'>
+                <thead>
+                <tr>
+                    <th>
+                        Metric
+                    </th>
+                    <th>
+                        Value
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Sharpe Ratio</th>
+                        <td>{result.sharpe_ratio}</td>
+                    </tr>
+                    <tr>
+                        <th>Return</th>
+                        <td>{result.return}</td>
+                    </tr>
+                    <tr>
+                        <th>Max drawdown</th>
+                        <td>{result.max_drawdown}</td>
+                    </tr>
+                    <tr>
+                        <th>Win Trade</th>
+                        <td>{result.win_trade}</td>
+                    </tr>
+                    <tr>
+                        <th>Loss Trade</th>
+                        <td>{result.loss_trade}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Trade</th>
+                        <td>{result.total_trade}</td>
+                    </tr>
+                    <tr>
+                        <th>Start Portfolio</th>
+                        <td>{result.start_portfolio}</td>
+                    </tr>
+                    <tr>
+                        <th>Final Portfolio</th>
+                        <td>{result.final_portfolio}</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
         </div>
         
