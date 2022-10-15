@@ -104,7 +104,7 @@ pip install -r requirements.txt
 
 ## Examples
 
-> ### Using this application
+> ### Using this application locally
 
 - One can start using the application by first running the front and back ends.
 - You can run the front-end by running the following command on the terminal
@@ -124,12 +124,19 @@ uvicorn app:app --reload
 
 > ### Interacting with the front end
 
-- After running the front end, one can simply go over to the browser and type in [http://localhost:3000](http://localhost:3000). or click this link
+- After running the front end, one can simply go over to the browser and type in [http://localhost:3000](http://localhost:3000). or click this [link](http://localhost:3000)
 - A page similar to this will appear.
 
-![](screenshots/homepage.jpg)
+![](screenshots/craete ACC.png)
 
-- Users will then fill in the parameters that are listed to get the back testing results they want.
+- After creating an account, or if users have already an account, they can simply click on the 'SIGN IN' button
+- After clicking on the 'SIGN IN' button, a page similar like this will appear
+
+![](screenshots/sign in.png)
+
+- Users will then fill in the parameters that are listed to get the back testing results they want, and click on the 'Run Test' button.
+
+![](screenshots/get metrics.png)
 
 ## Frontend
 
