@@ -27,7 +27,7 @@ def insert_to_table(df:pd.DataFrame, sqlQuery:str):
         
     for _, row in df.iterrows():
 
-        data = (row[0], row[1], created_on )
+        data = (row[0], row[1],row[2], created_on )
 
         # try:
             # Execute the SQL command

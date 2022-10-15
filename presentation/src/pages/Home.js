@@ -101,12 +101,12 @@ const Home = () => {
 
                     <div className='my-2'>
 
-                        <input className='form-control' type="text" name="" id="start" placeholder='YYYY-mm-dd' />
+                        <input className='form-control' type="date" name="" id="start" placeholder='YYYY-mm-dd' />
                     </div>
 
                     <div className='my-2'>
 
-                        <input className='form-control' type="text" name="" id="end" placeholder='YYYY-mm-dd' />
+                        <input className='form-control' type="date" name="" id="end" placeholder='YYYY-mm-dd' />
                     </div>
 
                     <div className='my-2'>
