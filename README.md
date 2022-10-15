@@ -53,6 +53,7 @@ Users will be prompted with several different stock and crypto trading options a
 The data used for generating these back testing results comes from several historical data of stocks and crypto currency trades.
 These datasets are publicly available and can be found at [yahoo finance](https://help.yahoo.com/kb/SLN2311.html) and [binance](https://www.binance.com/en/landing/data) (see a brief description of what a K-line or candlestick data is [here](https://www.investopedia.com/terms/c/candlestick.asp)).
 
+
 Basic features of the data sets:
 
 - Date: The day the specific trade was recorded
@@ -65,25 +66,16 @@ Basic features of the data sets:
 
 ## Requirements
 
-> Pip
-
-> FastApi
-
-> Zookeeper
-
-> kafka-python
-
-> Apache kafka
-
-> backtrader and yfinance
-
-> React (nodejs)
-
-> Apache airflow
-
-> Python 3.5 or above
-
-> Docker and Docker compose
+ * Pip
+ * FastApi
+ * Zookeeper
+ * kafka-python
+ * Apache kafka
+ * backtrader and yfinance
+ * React (nodejs)
+ * Apache airflow
+ * Python 3.5 or above
+ * Docker and Docker compose
 
 You can find the full list of requirements in the requirements.txt file
 
@@ -93,7 +85,7 @@ We highly recommend you create a new virtual environment and install every requi
 
 ### Installing this application
 
-- You can run the front-end by running the following command on the terminal
+- First clone this repo to your local machine using the command below
 
 ```
 git clone https://github.com/TenAcademy/backtesting.git
@@ -103,14 +95,14 @@ pip install -r requirements.txt
 
 ## Examples
 
-> ### Using this application
+### Using this application locally
 
 - One can start using the application by first running the front and back ends.
 - You can run the front-end by running the following command on the terminal
-- A more detailed instruction regarding the front-end can be found at frontend/readme.md file.
+- A more detailed instruction regarding the front-end can be found at presentation/readme.md file.
 
 ```
-cd frontend
+cd presentation
 npm run start
 ```
 
@@ -121,42 +113,51 @@ cd api
 uvicorn app:app --reload
 ```
 
-> ### Interacting with the front end
+### Interacting with the front end
 
-- After running the front end, one can simply go over to the browser and type in [http://localhost:3000](http://localhost:3000). or click this link
+- After running the front end, one can simply go over to the browser and type in [http://localhost:3000](http://localhost:3000). or click this [link](http://localhost:3000)
 - A page similar to this will appear.
 
-![](screenshots/homepage.jpg)
+![](screen_shots/web_app/create_acc.png)
 
-- Users will then fill in the parameters that are listed to get the back testing results they want.
+- After creating an account, or if users have already an account, they can simply click on the 'SIGN IN' button
+- After clicking on the 'SIGN IN' button, a page similar like this will appear
+
+![](screen_shots/web_app/sign_in.png)
+
+- Enter your email and password and click on the 'SIGN IN' button.
+
+- Users will then fill in the parameters that are listed to get the back testing results they want, and click on the 'Run Test' button.
+
+![](screen_shots/web_app/get_metrics.png)
 
 ## Frontend
 
-> The front end application can be found here in the frontend folder
+The front end application can be found here in the [presentation](presentation) folder
 
 ## Backend
 
-> The back end application can be found here in the backend folder
+The back end application can be found here in the [api](api) folder
 
 ## Screenshots
 
-> The detailed use and implementation of the pipelines using Apache Airflow, pipeline summary and interaction, kafka clusters, interaction with the topics on the kafka clusters, front-end images and usage can all be found in this screenshots folder as image files.
+The detailed use and implementation of the pipelines using Apache Airflow, pipeline summary and interaction, kafka clusters, interaction with the topics on the kafka clusters, front-end images and usage can all be found in this [screenshots](screen_shots) folder as image files.
 
 ## Notebooks
 
-> All the notebooks that are used in this project including EDA, data cleaning and summarization along with some machine learning model generations are found here in the Notebooks folder.
+All the notebooks that are used in this project including EDA, data cleaning and summarization along with some machine learning model generations are found here in the [Notebooks](notebooks) folder.
 
 ## Scripts
 
-> All the scripts and modules used for this project relating to interactions with kafka, airflow, and other frameworks along with default parameters and values used will be found here, in the scripts folder.
+All the scripts and modules used for this project relating to interactions with kafka, airflow, and other frameworks along with default parameters and values used will be found here, in the [scripts](scripts) folder.
 
 ## Strategies
 
-> All the back testing strategies and algorithms are found here in the strategies folder.
+All the back testing strategies and algorithms are found here in the [strategies](strategies) folder.
 
 ## Tests
 
-> All the unit and integration tests are found here in the tests folder.
+All the unit and integration tests are found here in the tests folder.
 
 ## Authors
 
