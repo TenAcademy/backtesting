@@ -1,18 +1,14 @@
 # importing the required libraries
-from cgi import test
-import os
+import json
 from random import randrange
-from xmlrpc.client import DateTime
+from symbol import parameters
 from airflow import DAG
 from datetime import timedelta, datetime
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from sqlalchemy import create_engine, text
-import pandas as pd
-import json
 from kafka import KafkaProducer, KafkaConsumer
 from kafka.errors import KafkaError
-import sys
 
 
 default_args = {
@@ -28,8 +24,8 @@ default_args = {
 }
 
 # kafka node server
-aws_instance_bootstrap_servers = ['b-1.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092',
-                                  'b-2.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092']
+server = ['b-1.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092',
+          'b-2.batch6w7.6qsgnf.c19.kafka.us-east-1.amazonaws.com:9092']
 
 # topics
 SCENES_TOPIC = 'g1-SCENES_TOPIC'
@@ -61,25 +57,28 @@ etl_dag = DAG(
 
 # region consume scene
 
-def consume_scene():
+def consume_scene(ti):
     print('consuming scenes. . .')
     # To consume latest messages and auto-commit offsets
     consumer = KafkaConsumer(SCENES_TOPIC,
                              group_id='base-development-group-scenes',
-                             bootstrap_servers=aws_instance_bootstrap_servers,
+                             bootstrap_servers=server,
                              auto_offset_reset='latest',
                              enable_auto_commit=True,
                              # StopIteration if no message after
                              consumer_timeout_ms=10000)
+    list_of_vals = []
     for msg in consumer:
         print(f'message: {msg}')
         print(f"value: {msg.value}")
         print(f"topic: {msg.topic}")
         print(f"partition: {msg.partition}")
         print(f"offset: {msg.offset}")
-        # decoded_data = json.dumps(msg, indent=4, ensure_ascii=False)
-        decoded_data = msg.value.decode("utf-8")
+        decoded_data = json.loads(msg.value.decode("utf-8"))
         print(f"decoded data: {decoded_data}\ntype: {type(decoded_data)}")
+        list_of_vals.append(decoded_data)
+    # push the record for the transformation task
+    ti.xcom_push(key='scene_record', value=list_of_vals)
     print('consuming scenes completed. . .')
 
 
@@ -90,25 +89,28 @@ subscribe_to_scene = PythonOperator(
 )
 
 
-def consume_result():
+def consume_result(ti):
     print('consuming results. . .')
     # To consume latest messages and auto-commit offsets
     consumer = KafkaConsumer(RESULTS_TOPIC,
                              group_id='base-development-group-results',
-                             bootstrap_servers=aws_instance_bootstrap_servers,
+                             bootstrap_servers=server,
                              auto_offset_reset='latest',
                              enable_auto_commit=True,
                              # StopIteration if no message after
                              consumer_timeout_ms=10000)
+    list_of_vals = []
     for msg in consumer:
         print(f'message: {msg}')
         print(f"value: {msg.value}")
         print(f"topic: {msg.topic}")
         print(f"partition: {msg.partition}")
         print(f"offset: {msg.offset}")
-        # decoded_data = json.dumps(msg, indent=4, ensure_ascii=False)
-        decoded_data = msg.value.decode("utf-8")
+        decoded_data = json.loads(msg.value.decode("utf-8"))
         print(f"decoded data: {decoded_data}\ntype: {type(decoded_data)}")
+        list_of_vals.append(decoded_data)
+    # push the record for the transformation task
+    ti.xcom_push(key='result_record', value=list_of_vals)
     print('consuming results completed. . .')
 
 
@@ -119,26 +121,29 @@ subscribe_to_result = PythonOperator(
 )
 
 
-def consume_ml_result():
+def consume_ml_result(ti):
     print('consuming ml results. . .')
     # To consume latest messages and auto-commit offsets
     consumer = KafkaConsumer(RESULTS_TOPIC_ML,
                              group_id='base-development-group-ml-results',
-                             bootstrap_servers=aws_instance_bootstrap_servers,
+                             bootstrap_servers=server,
                              auto_offset_reset='latest',
                              enable_auto_commit=True,
                              # StopIteration if no message after
                              consumer_timeout_ms=10000)
+    list_of_vals = []
     for msg in consumer:
         print(f'message: {msg}')
         print(f"value: {msg.value}")
         print(f"topic: {msg.topic}")
         print(f"partition: {msg.partition}")
         print(f"offset: {msg.offset}")
-        # decoded_data = json.dumps(msg, indent=4, ensure_ascii=False)
-        decoded_data = msg.value.decode("utf-8")
+        decoded_data = json.loads(msg.value.decode("utf-8"))
         print(f"decoded data: {decoded_data}\ntype: {type(decoded_data)}")
-    print('consuming results completed. . .')
+        list_of_vals.append(decoded_data)
+    # push the record for the transformation task
+    ti.xcom_push(key='', value=list_of_vals)
+    print('consuming ml results completed. . .')
 
 
 subscribe_to_ml_result = PythonOperator(
@@ -167,25 +172,66 @@ make_transformations = PythonOperator(
 # endregion
 
 
+parameter_ids = []
 # region insertions
 
-def load_to_scenes_table():
+
+def load_to_scenes_table(ti):
     print('loading scene into db. . .')
-    # engine = create_engine(f'postgresql://{user}@{host}/{db}')
+    scene_data = ti.xcom_pull(key='scene_record',
+                              task_ids='subscribe_to_scene')
+    print(f"scene data: {scene_data}\ntype: {type(scene_data)}")
+
+    for record in scene_data:
+        print(f"row: {record}\ntype: {type(record)}")
+        print(f"asset: {record['asset']} == type: {type(record['asset'])}")
+        print(f"cash: {record['cash']} === type: {type(record['cash'])}")
+        print(f"strategy: {record['strategy']} === type: {type(record['strategy'])}")
+        print(f"start_date: {record['start_date']} === type: {type(record['start_date'])}")
+        print(f"end_date: {record['end_date']} === type: {type(record['end_date'])}")
+
+    # creating the db engine
     engine = create_engine(
         f'postgresql+psycopg2://{user}:{passw}@{host}:{port}/{db}')
 
-    select_users_query = """
-        SELECT *
-        FROM public.users
-        ORDER BY users.id;
-    """
+    # clear the list for new parameter ids
+    parameter_ids.clear()
+    for record in scene_data:
+        insert_parameters_query = f"""
+            INSERT INTO g1.parameters(asset, starting_money, strategy,
+                                      start_date, end_date)
+            VALUES ('{record["asset"]}', {float(record["cash"])},
+                    '{record["strategy"]}', '{record["start_date"]}',
+                    '{record["end_date"]}');
+        """
 
-    with engine.connect() as conn:
-        # query = text("Show table")
-        a = conn.execute(select_users_query)
-        print(a.fetchall())
+        get_current_id_query = f"""
+            SELECT id FROM g1.parameters p WHERE (p.asset = '{record["asset"]}'
+                                  and p.starting_money = {float(record["cash"])}
+                                  and p.strategy = '{record["strategy"]}'
+                                  and p.start_date = '{record["start_date"]}'
+                                  and p.end_date = '{record["end_date"]}')
+                                  LIMIT 1;
+        """
+        with engine.connect() as conn:
+            # insert record
+            try:
+                a = conn.execute(insert_parameters_query)
+                print(a.fetchall())
+            except Exception as e:
+                print(e)
 
+            # fetch record id
+            try:
+                curr_id = conn.execute(get_current_id_query)
+                for row in curr_id:
+                    parameter_ids.append(row["id"])
+                    print(f'current id: {row["id"]}')
+            except Exception as e:
+                print(e)
+    print(f'parameter ids: {parameter_ids}')
+    ti.xcom_push(key='parameter_ids',
+                 value=parameter_ids)
     print('loading scene into db completed. . .')
 
 
@@ -196,24 +242,54 @@ load_scene_to_db = PythonOperator(
 )
 
 
-def load_to_results_table():
+def load_to_results_table(ti):
     print('loading back test results into db. . .')
+    result_data = ti.xcom_pull(key='result_record',
+                               task_ids='subscribe_to_result')
+    print(f"results data: {result_data}\ntype: {type(result_data)}")
 
-    # engine = create_engine(f'postgresql://{user}@{host}/{db}')
+    for record in result_data:
+        print(f"row: {record}\ntype: {type(record)}")
+        print(f"sharpe_ratio: {record['sharpe_ratio']} == type: {type(record['sharpe_ratio'])}")
+        print(f"return: {record['return']} === type: {type(record['return'])}")
+        print(f"max_drawdown: {record['max_drawdown']} === type: {type(record['max_drawdown'])}")
+        print(f"win_trade: {record['win_trade']} === type: {type(record['win_trade'])}")
+        print(f"loss_trade: {record['loss_trade']} === type: {type(record['loss_trade'])}")
+        print(f"total_trade: {record['total_trade']} === type: {type(record['total_trade'])}")
+        print(f"start_portfolio: {record['start_portfolio']} === type: {type(record['start_portfolio'])}")
+        print(f"final_portfolio: {record['final_portfolio']} === type: {type(record['final_portfolio'])}")
+
+    # creating the db engine
     engine = create_engine(
         f'postgresql+psycopg2://{user}:{passw}@{host}:{port}/{db}')
 
-    select_users_query = """
-        SELECT *
-        FROM public.users
-        ORDER BY users.id;
-    """
-
-    with engine.connect() as conn:
-        # query = text("Show table")
-        a = conn.execute(select_users_query)
-        print(a.fetchall())
-
+    id_is_at = 0
+    parameter_idz = ti.xcom_pull(key='parameter_ids',
+                                 task_ids='load_scene_to_db')
+    print(f'parameter ids: {parameter_idz}')
+    print(f"current id: {parameter_idz[id_is_at]}\ncurrent index: {id_is_at}")
+    for record in result_data:
+        print(f"current id: {parameter_idz[id_is_at]}\ncurrent index: {id_is_at}")
+        insert_parameters_query = f"""
+            INSERT INTO g1.backtests_results(sharpe_ratio, return,
+                                             max_drawdown, win_trade,
+                                             loss_trade, total_trade,
+                                             start_portfolio, final_portfolio,
+                                             parameter_id)
+            VALUES ({float(record["sharpe_ratio"])}, {float(record["return"])},
+                    {float(record["max_drawdown"])}, {record["win_trade"]},
+                    {record["loss_trade"]}, {record["total_trade"]},
+                    {float(record["start_portfolio"])},
+                    {float(record["final_portfolio"])},
+                    {parameter_idz[id_is_at]});
+        """
+        with engine.connect() as conn:
+            try:
+                a = conn.execute(insert_parameters_query)
+                id_is_at += 1
+                print(a.fetchall())
+            except Exception as e:
+                print(e)
     print('loading back test results into  db completed. . .')
 
 
@@ -231,16 +307,18 @@ def load_to_ml_results_table():
     engine = create_engine(
         f'postgresql+psycopg2://{user}:{passw}@{host}:{port}/{db}')
 
-    select_users_query = """
+    insert_parameters_query = """
         SELECT *
         FROM public.users
         ORDER BY users.id;
     """
 
     with engine.connect() as conn:
-        # query = text("Show table")
-        a = conn.execute(select_users_query)
-        print(a.fetchall())
+        try:
+            a = conn.execute(insert_parameters_query)
+            print(a.fetchall())
+        except Exception as e:
+            print(e)
 
     print('loading ml results into  db completed. . .')
 
