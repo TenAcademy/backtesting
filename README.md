@@ -127,16 +127,16 @@ uvicorn app:app --reload
 - After running the front end, one can simply go over to the browser and type in [http://localhost:3000](http://localhost:3000). or click this [link](http://localhost:3000)
 - A page similar to this will appear.
 
-![](screen_shots/web_app/craete ACC.png)
+![](screen_shots/web_app/create_acc.png)
 
 - After creating an account, or if users have already an account, they can simply click on the 'SIGN IN' button
 - After clicking on the 'SIGN IN' button, a page similar like this will appear
 
-![](screen_shots/web_app/sign in.png)
+![](screen_shots/web_app/sign_in.png)
 
 - Users will then fill in the parameters that are listed to get the back testing results they want, and click on the 'Run Test' button.
 
-![](screen_shots/web_app/get metrics.png)
+![](screen_shots/web_app/get_metrics.png)
 
 ## Frontend
 
