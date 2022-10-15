@@ -134,6 +134,8 @@ uvicorn app:app --reload
 
 ![](screen_shots/web_app/sign_in.png)
 
+- Enter your emil and password and click on the 'SIGN IN' button.
+
 - Users will then fill in the parameters that are listed to get the back testing results they want, and click on the 'Run Test' button.
 
 ![](screen_shots/web_app/get_metrics.png)
