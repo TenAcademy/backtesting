@@ -94,7 +94,7 @@ You can find the full list of requirements in the requirements.txt file
 
 ### Installing this application
 
-- You can run the front-end by running the following command on the terminal
+- First clone this repo to your local machine using the command below
 
 ```
 git clone https://github.com/TenAcademy/backtesting.git
@@ -108,10 +108,10 @@ pip install -r requirements.txt
 
 - One can start using the application by first running the front and back ends.
 - You can run the front-end by running the following command on the terminal
-- A more detailed instruction regarding the front-end can be found at frontend/readme.md file.
+- A more detailed instruction regarding the front-end can be found at presentation/readme.md file.
 
 ```
-cd frontend
+cd presentation
 npm run start
 ```
 
