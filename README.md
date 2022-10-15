@@ -28,7 +28,7 @@
 
 ## Introduction
 
-> Data is everywhere. In order to get the best out of it, one needs to extract it from several sources, make required transformations and load it to a data warehouse for further analysis and explorations. This is where ETL data pipelines come to use.
+Data is everywhere. In order to get the best out of it, one needs to extract it from several sources, make required transformations and load it to a data warehouse for further analysis and explorations. This is where ELT data pipelines come to use.
 
 > Trade involves the transfer of goods and services from one person or entity to another, often in exchange for money. Economists refer to a system or network that allows trade as a market.
 
