@@ -59,7 +59,9 @@ CREATE TABLE g1.users(
     user_name VARCHAR(15) NOT NULL,
     password VARCHAR(15) NOT NULL,
     posting_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    posting_time TIME NOT NULL DEFAULT CURRENT_TIME
+    posting_time TIME NOT NULL DEFAULT CURRENT_TIME,
+
+    PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS g1.parameters;
@@ -71,31 +73,36 @@ CREATE TABLE g1.parameters(
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     posting_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    posting_time TIME NOT NULL DEFAULT CURRENT_TIME
+    posting_time TIME NOT NULL DEFAULT CURRENT_TIME,
+
+    PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS g1.strategy;
-CREATE TABLE g1.strategy(
+DROP TABLE IF EXISTS g1.strategies;
+CREATE TABLE g1.strategies(
     id INT GENERATED ALWAYS AS IDENTITY,
     strategy_name VARCHAR(15) NOT NULL,
     posting_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    posting_time TIME NOT NULL DEFAULT CURRENT_TIME
+    posting_time TIME NOT NULL DEFAULT CURRENT_TIME,
+
+    PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS g1.asset;
-CREATE TABLE g1.asset(
+DROP TABLE IF EXISTS g1.assets;
+CREATE TABLE g1.assets(
     id INT GENERATED ALWAYS AS IDENTITY,
     asset_name VARCHAR(15) NOT NULL,
     posting_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    posting_time TIME NOT NULL DEFAULT CURRENT_TIME
+    posting_time TIME NOT NULL DEFAULT CURRENT_TIME,
+
+    PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS g1.backtests_results;
 CREATE TABLE g1.backtests_results(
     id INT GENERATED ALWAYS AS IDENTITY,
-    strategy_id INT,
     parameter_id INT,
-    starting_portfolio FLOAT NOT NULL,
+    start_portfolio FLOAT NOT NULL,
     final_portfolio FLOAT NOT NULL,
     loss_trade INT NOT NULL,
     win_trade INT NOT NULL,
@@ -104,15 +111,10 @@ CREATE TABLE g1.backtests_results(
     sharpe_ratio FLOAT NOT NULL,
     max_drawdown FLOAT NOT NULL,
     posting_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    posting_time TIME NOT NULL DEFAULT CURRENT_TIME
+    posting_time TIME NOT NULL DEFAULT CURRENT_TIME,
 
-    CONSTRAINT fk_parameters_1
-    FOREIGN KEY(strategy_id),
-    REFERENCES g1.strategy(id)
-
-    CONSTRAINT fk_parameters_2
-    FOREIGN KEY(parameter_id),
-    REFERENCES g1.parameter(id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (parameter_id) REFERENCES g1.parameters(id)
 );
 """
 # https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-date/
@@ -120,5 +122,5 @@ CREATE TABLE g1.backtests_results(
 
 with engine.connect() as conn:
     # query = text("Show table")
-    a = conn.execute(select_users_query)
+    a = conn.execute(create_query)
     print(a.fetchall())
