@@ -140,11 +140,11 @@ uvicorn app:app --reload
 
 ## Frontend
 
-> The front end application can be found here in the frontend folder
+> The front end application can be found here in the presentation folder
 
 ## Backend
 
-> The back end application can be found here in the backend folder
+> The back end application can be found here in the api folder
 
 ## Screenshots
 
